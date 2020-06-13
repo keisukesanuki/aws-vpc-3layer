@@ -5,6 +5,7 @@
     name: "{{ vpc_name }}"
     cidr_block: "{{ vpc_cidr }}"
     region: "{{ region }}"
+    profile: "{{ profile }}"
     dns_hostnames: yes
     dns_support: yes
   register: vpc_info
@@ -17,6 +18,7 @@
     az: "{{ item.subnet_az }}"
     region: "{{ region }}"
     resource_tags: { "Name":"{{ item.pub_subnet_name }}" }
+    profile: "{{ profile }}"
   register: pubsub_info
   with_items:
     - "{{ pub_subnet }}"
@@ -29,6 +31,7 @@
     az: "{{ item.subnet_az }}"
     region: "{{ region }}"
     resource_tags: { "Name":"{{ item.dmz_subnet_name }}" }
+    profile: "{{ profile }}"
   register: pubsub_info
   with_items:
     - "{{ dmz_subnet }}"
@@ -41,6 +44,7 @@
     az: "{{ item.subnet_az }}"
     region: "{{ region }}"
     resource_tags: { "Name":"{{ item.pri_subnet_name }}" }
+    profile: "{{ profile }}"
   register: prisub_info 
   with_items:
     - "{{ pri_subnet }}"
@@ -51,6 +55,7 @@
     vpc_id: "{{ vpc_info.vpc.id }}"
     region: "{{ region }}"
     tags: { "Name":"{{ igw_name }}" }
+    profile: "{{ profile }}"
   register: igw_info
 
 # ROUTETABLEの作成(IGW)
@@ -62,10 +67,11 @@
       - dest: 0.0.0.0/0
         gateway_id: "{{ igw_info.gateway_id }}"
     region: "{{ region }}"
+    profile: "{{ profile }}"
     resource_tags: { "Name":"{{ rttable_pub_name }}" }
 
 - name: get_subnet_id
-  shell: aws ec2 describe-subnets --output text | grep -B 1 {{ ngw_subnet_name }} | awk 'NR==1 {print $12}'
+  shell: aws ec2 describe-subnets --profile {{ profile }} --output text | grep -B 1 {{ ngw_subnet_name }} | awk 'NR==1 {print $12}'
   register: ngw_subnet_id
 
 #- name: show
@@ -77,11 +83,12 @@
   ec2_vpc_nat_gateway:
     subnet_id: "{{ ngw_subnet_id.stdout }}"
     region: "{{ region }}"
+    profile: "{{ profile }}"
   register: ngw_info
 
-- name: show
-  debug:
-    msg: "{{ ngw_info.nat_gateway_id }}"
+#- name: show
+#  debug:
+#    msg: "{{ ngw_info.nat_gateway_id }}"
 
 # NGW作成まで待つ
 - name: wait_for_ngw
@@ -97,4 +104,5 @@
       - dest: 0.0.0.0/0
         gateway_id: "{{ ngw_info.nat_gateway_id }}"
     region: "{{ region }}"
+    profile: "{{ profile }}"
     resource_tags: { "Name":"{{ rttable_dmz_name }}" }
