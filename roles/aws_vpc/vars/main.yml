@@ -1,0 +1,52 @@
+---
+# vars file for aws_vpc
+
+# REGION
+  region: "ap-northeast-1"
+
+# VPC
+  vpc_name: "sanuki-wd-vpc2"
+  vpc_cidr: "10.10.0.0/16"
+
+# IGW
+  igw_name: "sanuki-igw2"
+
+# NGW
+  ngw_name: "sanuki-ngw2"
+
+
+# NGWを作成するサブネット名
+  ngw_subnet_name: "sanuki-wd-dmz-subnet2-a"
+
+# ROUTETABLE(PUBLIC)
+  rttable_pub_name: "sanuki-pub-rt2"
+
+# ROUTETABLE(DMZ)
+  rttable_dmz_name: "sanuki-dmz-rt2"
+
+# PUBLIC_SUBNET
+  pub_subnet:
+    - { pub_subnet_cidr: "10.10.10.0/24" ,subnet_az: "ap-northeast-1a" ,pub_subnet_name: "sanuki-wd-public-subnet2-a" }
+    - { pub_subnet_cidr: "10.10.20.0/24" ,subnet_az: "ap-northeast-1c" ,pub_subnet_name: "sanuki-wd-public-subnet2-c" }
+
+
+# DMZ_SUBNET
+  dmz_subnet:
+    - { dmz_subnet_cidr: "10.10.30.0/24" ,subnet_az: "ap-northeast-1a" ,dmz_subnet_name: "sanuki-wd-dmz-subnet2-a" }
+    - { dmz_subnet_cidr: "10.10.40.0/24" ,subnet_az: "ap-northeast-1c" ,dmz_subnet_name: "sanuki-wd-dmz-subnet2-c" }
+
+
+# PRIVATE_SUBNET
+  pri_subnet:
+    - { pri_subnet_cidr: "10.10.50.0/24" ,subnet_az: "ap-northeast-1a" ,pri_subnet_name: "sanuki-wd-private-subnet2-a" }
+    - { pri_subnet_cidr: "10.10.60.0/24" ,subnet_az: "ap-northeast-1c" ,pri_subnet_name: "sanuki-wd-private-subnet2-c" }
+ 
+# IGWに紐付けるサブネット
+  atache_igw_subnet:
+    - "10.10.10.0/24"
+    - "10.10.20.0/24"
+
+# NGWに紐付けるサブネット
+  atache_ngw_subnet:
+    - "10.10.30.0/24"
+    - "10.10.40.0/24"
