@@ -70,8 +70,9 @@
     profile: "{{ profile }}"
     resource_tags: { "Name":"{{ rttable_pub_name }}" }
 
+# NGWのIDを取得
 - name: get_subnet_id
-  shell: aws ec2 describe-subnets --profile {{ profile }} --output text | grep -B 1 {{ ngw_subnet_name }} | awk 'NR==1 {print $12}'
+  shell: aws ec2 describe-subnets --region {{ region }} --profile {{ profile }} --output text | grep -B 1 {{ ngw_subnet_name }} | awk 'NR==1 {print $12}'
   register: ngw_subnet_id
 
 #- name: show
