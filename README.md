@@ -28,7 +28,7 @@ git clone [URL]
 cd aws-vpc-3layer
 ```
 
-### 2.作成したリソースに併せて適切に変数を設定
+### 2.作成したいリソースに併せて適切に変数を設定
 
 ```
 vi roles/aws_vpc/vars/main.yml
