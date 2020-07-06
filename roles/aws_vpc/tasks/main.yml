@@ -85,6 +85,7 @@
     subnet_id: "{{ ngw_subnet_id.stdout }}"
     region: "{{ region }}"
     profile: "{{ profile }}"
+    wait: yes
   register: ngw_info
 
 #- name: show
@@ -92,9 +93,9 @@
 #    msg: "{{ ngw_info.nat_gateway_id }}"
 
 # NGW作成まで待つ
-- name: wait_for_ngw
-  pause:
-    minutes: 5
+#- name: wait_for_ngw
+#  pause:
+#    minutes: 5
 
 # ROUTETABLEの作成(NGW)
 - name: create_route_table2
