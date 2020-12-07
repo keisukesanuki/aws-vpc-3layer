@@ -18,7 +18,6 @@ awsに3層のVPC環境を構築するplaybookです。
 
 ```
 pip install boto boto3 awscli
-
 ```
 
 ### 1.リポジトリをclone
@@ -31,6 +30,7 @@ cd aws-vpc-3layer
 ### 2.作成したいリソースに併せて適切に変数を設定
 
 ```
+cp -p roles/aws_vpc/vars/main.yml.example roles/aws_vpc/vars/main.yml
 vi roles/aws_vpc/vars/main.yml
 ```
 
